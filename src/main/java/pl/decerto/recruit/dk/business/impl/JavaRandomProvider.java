@@ -1,13 +1,13 @@
 package pl.decerto.recruit.dk.business.impl;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.decerto.recruit.dk.business.api.DataProvider;
 
 import java.math.BigDecimal;
 
 @Component
-@Primary
+@Qualifier("active")
 class JavaRandomProvider implements DataProvider<BigDecimal> {
 
     @Override

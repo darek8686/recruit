@@ -7,27 +7,25 @@ import pl.decerto.recruit.dk.business.api.DataMerger;
 import pl.decerto.recruit.dk.business.api.DataProvider;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 class ComputeServiceImpl implements ComputeService<BigDecimal> {
 
-    private final DataProvider<BigDecimal> firstProvider;
-    private final DataProvider<BigDecimal> secondProvider;
+    private final List<DataProvider<BigDecimal>> providers;
     private final DataMerger<BigDecimal> dataMerger;
 
-    public ComputeServiceImpl(@Qualifier("restRandom") DataProvider<BigDecimal> firstProvider,
-                              DataProvider<BigDecimal> secondProvider, DataMerger<BigDecimal> dataMerger) {
-        this.firstProvider = firstProvider;
-        this.secondProvider = secondProvider;
+    public ComputeServiceImpl(@Qualifier("active") List<DataProvider<BigDecimal>> providers, DataMerger<BigDecimal> dataMerger) {
+        this.providers = providers;
         this.dataMerger = dataMerger;
     }
 
     @Override
     public BigDecimal compute() {
-        final BigDecimal first = firstProvider.generate();
-        final BigDecimal second = secondProvider.generate();
+        final List<BigDecimal> numbers = new ArrayList<>(providers.size());
+        providers.forEach(p -> numbers.add(p.generate()));
 
-        return dataMerger.merge(Arrays.asList(first, second));
+        return dataMerger.merge(numbers);
     }
 }

@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @Component
-@Qualifier("restRandom")
+@Qualifier("active")
 class RandomOrgProvider implements DataProvider<BigDecimal> {
 
     private final RestTemplate restTemplate = new RestTemplate();
